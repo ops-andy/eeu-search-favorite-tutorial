@@ -185,3 +185,30 @@
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
        {/exp:low_search:form}
 </div>
+
+<script>
+//uncheck all boxes with given name when box with specified ID is checked
+function showAll(cn,cbId){
+    if (document.getElementById(cbId).checked){
+        var cbarray = document.getElementsByName(cn);
+        for(var i = 0; i < cbarray.length; i++){
+            if (cbarray[i] != document.getElementById(cbId)){
+                cbarray[i].checked = false;
+            }
+        }   
+        ajaxFormSubmit();
+    }
+}
+
+const filterAccordions = document.querySelectorAll('.filter-accordion');
+    filterAccordions.forEach(filterAccordions =>{
+        let filterCheckbox = filterAccordions.querySelectorAll('[data-action-uncheck]');
+
+        filterCheckbox.forEach(filterBox => {
+            filterBox.addEventListener('change', event => {
+                var showAllFilter = filterBox.getAttribute("data-action-uncheck");
+                document.getElementById(showAllFilter).checked = false;
+            })
+        })
+    });
+</script>
