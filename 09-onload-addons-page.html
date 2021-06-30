@@ -1,0 +1,33 @@
+{layout='layouts/_html-wrapper'}
+{partial_search_functions}
+
+<div class="container my-12 mx-auto px-4 md:px-12 w-10 inline-block align-top">
+    <div id="addon-results" class="flex flex-wrap -mx-1 lg:-mx-4">
+
+    </div>
+</div>
+
+<script>
+        //we're going to need the baseURL for several things here
+        function baseUrl() {
+            return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port: '');
+        }
+        const resultsTarget = document.getElementById("addon-results");
+        const rp = baseUrl() + '/ajax/addon-results'
+        
+        //on load create AJAX request
+        document.addEventListener('DOMContentLoaded', event =>{
+            
+            //submit the response with fetch()
+            fetch(baseUrl() + "/ajax/addon-results")
+                // take our response and get the HTML we really want
+                .then(response => {
+                    return response.text();
+                    })
+                // take our HTML and replace the contents of our #addon-results element
+                .then(data => {
+                    resultsTarget.innerHTML = data;
+                });
+        });
+
+</script>
