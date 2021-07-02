@@ -60,22 +60,13 @@
 					pageLink.addEventListener('click', (event) => {
 						event.preventDefault();
 						var pageUrl = pageLink.href;
-						currentFilterToggle.innerHTML = '<img src="/assets/images/ajax-loader.gif"/>';
-						resultsTarget.innerHTML = generateLoadingText();
-						currentFilterToggle.innerHTML = currentFilterToggleIcon;
 						fetch(pageUrl)
 							.then(response => {
 								return response.text();
 							})
 							.then(data => {
 								resultsTarget.innerHTML = data;
-								var currentPage = document.querySelector('.pagination__page--selected').innerHTML;
-								var title = 'Add-ons - Page ' + currentPage + ' | ExpressionEngine'
-								document.title = title;
-								var path = pageUrl.replace(/https?:\/\/[^\/]+/i, '');
-								//history.pushState({}, title, path);
 								paginationLinks();
-								addClicktoFavoritesToggle();
 							});
 
 
