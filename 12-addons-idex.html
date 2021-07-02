@@ -27,6 +27,7 @@
                 // take our HTML and replace the contents of our #addon-results element
                 .then(data => {
                     resultsTarget.innerHTML = data;
+                    paginationLinks();
                 });
         });
 
@@ -47,6 +48,7 @@
             // take our HTML and replace the contents of our #addon-results element
             .then(data =>{
                 resultsTarget.innerHTML = data;
+                paginationLinks();
             })
         }
 
