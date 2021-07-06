@@ -1,0 +1,117 @@
+{layout='layouts/_html-wrapper'}
+{partial_search_functions}
+
+<div class="container my-12 mx-auto px-4 md:px-12 w-10 inline-block align-top">
+    <div id="addon-results" class="flex flex-wrap -mx-1 lg:-mx-4">
+
+    </div>
+</div>
+
+{exp:channel:entries channel="add_on_store"}
+    <h2>{title}</h2>
+    <p>
+    {exp:favorites:form
+        entry_id="{entry_id}"
+    }
+        <input type="submit" name="submit" value="Add" />
+    {/exp:favorites:form}
+    </p>
+{/exp:channel:entries}
+
+<script>
+        //we're going to need the baseURL for several things here
+        function baseUrl() {
+            return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port: '');
+        }
+        const resultsTarget = document.getElementById("addon-results");
+        const rp = baseUrl() + '/ajax/addon-results'
+        
+        //on load create AJAX request
+        document.addEventListener('DOMContentLoaded', event =>{
+            
+            //submit the response with fetch()
+            fetch(baseUrl() + "/ajax/addon-results")
+                // take our response and get the HTML we really want
+                .then(response => {
+                    return response.text();
+                    })
+                // take our HTML and replace the contents of our #addon-results element
+                .then(data => {
+                    resultsTarget.innerHTML = data;
+                    paginationLinks();
+                    addClicktoFavoritesToggle();
+                });
+        });
+
+        function ajaxFormSubmit () {
+            //get the form data
+            var searchForm = document.getElementById("addon_filter");
+            var formData = new FormData(searchForm);
+
+            //submit the data via AJAX
+            fetch(searchForm.action, {
+                method: 'post',
+                body: formData
+            })
+            // take our response and get the HTML we really want
+            .then(response => {
+                return response.text();
+            })
+            // take our HTML and replace the contents of our #addon-results element
+            .then(data =>{
+                resultsTarget.innerHTML = data;
+                paginationLinks();
+            })
+        }
+
+        //paginationLinks
+			//adds event listners to pagination
+			//must be called AFTER ajax loads
+			function paginationLinks() {
+				document.querySelectorAll('.pagination__page').forEach(pageLink => {
+					pageLink.addEventListener('click', (event) => {
+						event.preventDefault();
+						var pageUrl = pageLink.href;
+						fetch(pageUrl)
+							.then(response => {
+								return response.text();
+							})
+							.then(data => {
+								resultsTarget.innerHTML = data;
+								paginationLinks();
+							});
+
+
+					})
+				});
+			}
+
+            //addClicktoFavoritesToggle
+			//toggles favorited items
+			//must be called AFTER ajax calls are complete.
+			function addClicktoFavoritesToggle () {
+                //find all buttons in our add-on cards
+                favoriteToggles = document.querySelectorAll('.addon-card button');
+
+                favoriteToggles.forEach(favToggle => {
+					favToggle.addEventListener('click', event => {
+                        var favHeart = favToggle.querySelector('.favorite-toggle');
+
+                        //We are using Font-awesome style prefixes to switch between the regular style ("far") and the solid style ("fas")
+                        //remove font-awesome classes, then add respective classes
+                        favHeart.classList.remove('fas');
+                        favHeart.classList.remove('far');
+
+                        //if the heart is already active then switch back to the outline only (regular) style. 
+                        if (favHeart.classList.contains('active')) {
+                            favHeart.classList.remove('active');
+                            favHeart.classList.add('far');
+                        }else{
+                            favHeart.classList.add('active');
+                            favHeart.classList.add('fas');
+                        }
+                    });
+                });
+            }
+
+</script>
