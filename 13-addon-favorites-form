@@ -1,5 +1,6 @@
 {exp:favorites:info
     entry_id="{segment_3}"
+    disable_pagination="yes"
 }
     {exp:favorites:edit
         favorite_id="{favorites:favorite_id}"
