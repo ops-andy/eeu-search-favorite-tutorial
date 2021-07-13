@@ -1,0 +1,16 @@
+{exp:favorites:entries
+    limit='999'
+    paginate='bottom'
+    status="not closed"
+}
+
+    {!-- if no results, let the user know --}
+         {if no_results}
+                <div class="alert alert--empty">No add-ons have been added to your favorites.</div>
+            {/if}
+
+    
+        {partial_search_results}
+
+
+{/exp:favorites:entries}
