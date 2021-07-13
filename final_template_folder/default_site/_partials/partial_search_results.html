@@ -1,0 +1,95 @@
+<style>
+.fa-heart {
+    background: 0 0;
+    color: #ba1f3b;
+    padding: 4px;
+    cursor: pointer;
+}
+</style>
+
+        {!-- the card used to display the add-on information --}
+        {!-- Tailwind card component source: https://tailwindcomponents.com/component/quote-card-with-image-1 --}
+            <div class=" flex flex-col my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 addon-card">
+                <div class="max-w-2xl bg-white border-2 border-gray-300 p-5 rounded-md tracking-wide shadow-lg flex-1">
+                    <div id="header" class="flex"> 
+                        <img alt="addon icon" class="rounded-md border-2 border-gray-300" style="width:100px;height:100px;" src="{add_on_icon}"/>
+                        <div id="body" class="flex flex-col ml-5">
+                            <h4 id="name" class="text-xl font-semibold mb-2">{title}</h4>
+                            {exp:favorites:info
+                                    entry_id="{entry_id}"
+                                    disable_pagination="yes"
+                                }
+                                     <h1>Remove Favorites</h1>
+                                    {exp:favorites:edit
+                                        favorite_id="{favorites:favorite_id}"
+                                        return="addons"
+                                    }
+                                        <input type="hidden" name="delete" value="yes">
+                                        <input type="hidden" name="entry-id" value="{entry_id}">
+                                        <button class="w-1" type="submit" value="Remove">
+                                            <i class="fas fa-heart favorite-toggle active"></i>
+                                        </button>
+                                    {/exp:favorites:edit}
+                                    {if favorites:no_results}
+                                    <h1>Add to Favorites</h1>
+                                        {exp:favorites:form
+                                            entry_id="{entry_id}"
+                                            return="addons"
+                                        }
+                                        <input type="hidden" name="entry-id" value="{entry_id}">
+                                            <button class="w-1" type="submit" value="Add">
+                                                <i class="far fa-heart favorite-toggle"></i>
+                                            </button>
+                                        {/exp:favorites:form}
+                                        
+                                    {/if}
+                                {/exp:favorites:info}
+                            <p id="job" class="text-gray-800 mt-2">{add_on_description:limit characters='100'}</p>
+                            <div class="flex mt-5">
+                                <p class="ml-3">
+                                    {if add_on_price == '0'}
+                                        Free
+                                    {if:else}
+                                        <sup>$</sup>{add_on_price}
+                                    {/if}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {!-- pagination since we're limiting to 4 results on a page --}
+        {!-- Tailwind pagination component source: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/css/pagination/with-numbers --}
+        {paginate}
+            <div class="container py-2">
+                <nav class="block">
+                    <ul class="flex pl-0 rounded list-none flex-wrap">
+                        {pagination_links}
+                            {first_page}
+                            <li>
+                                <a href="{pagination_url}" class="pagination__page first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-blue-500 {if current_page}text-white bg-blue-500{if:else}bg-white text-blue-500{/if}" style="width:30px;">
+                                {pagination_page_number}
+                                </a>
+                            </li>
+                            {/first_page}
+
+                            {page}
+                            <li>
+                                <a href="{pagination_url}" class="pagination__page first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-blue-500 {if current_page}text-white bg-blue-500{if:else}bg-white text-blue-500{/if}" style="width:30px;">
+                                {pagination_page_number}
+                                </a>
+                            </li>
+                            {/page}
+
+                            {last_page}
+                            <li>
+                                <a href="{pagination_url}" class="pagination__page first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-blue-500 {if current_page}text-white bg-blue-500{if:else}bg-white text-blue-500{/if}" style="width:30px;">
+                                {pagination_page_number}
+                                </a>
+                            </li>
+                            {/last_page}
+                        {/pagination_links}
+                    </ul>
+                </nav>
+            </div>
+        {/paginate}

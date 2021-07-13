@@ -1,0 +1,38 @@
+ {if segment_3 =="" || segment_3~"#^P(\d+)$#"}
+        {!-- this would match /ajax/addon-results and /ajax/addon-results/P[page number]--}
+
+        {exp:low_search:results
+            channel='add_on_store'
+            limit='4'
+            paginate="bottom"
+        }
+
+    {if:else}
+        {!-- 
+        this would match both /ajax/addon-results/[encoded query string] and /ajax/addon-results/[encoded query string]/P[page number] 
+            since Low Search results tag natively knows how to handle pagination we don't need to catch pagination separately here.
+        --}
+
+        {exp:low_search:results
+            channel='add_on_store'
+            limit='4'
+            paginate="bottom"
+            keywords:mode="all"
+            keywords:loose="both"
+            collection="add_on_store"
+            query="{segment_3}" 
+            dynamic_parameters='orderby|sort'
+
+        }
+{/if}
+
+        {!-- if no results, let the user know --}
+        {if low_search_no_results}
+            <div class="alert alert--empty">No Add-ons</div>
+        {/if}
+
+    
+    {partial_search_results}
+
+
+    {/exp:low_search:results}

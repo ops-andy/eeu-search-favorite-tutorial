@@ -1,0 +1,218 @@
+<div class="container my-12 mx-auto px-4 md:px-12 w-2 inline-block align-top">
+
+    <a href="ajax/addon-favorites" id="see-all-favorites">View My Favorites</a>
+    <hr>
+
+    <div class="font-bold">Search All Add-Ons</div>
+    {exp:low_search:form
+            result_page="ajax/addon-results"
+            form_id="addon_filter"
+            query="{segment_3}" 
+        }
+        <div 
+            class="p-add-ons__category-sidebar"
+            id="keyword-search"
+            >
+
+            <div 
+                class="search-input filter-bar__item filter-bar__item--right"
+                style="margin-bottom: 20px;"
+                >
+
+                <i class="far fa-search search-input__icon"></i>
+                <input 
+                    type="text"
+                    name="keywords"
+                    class="search-input__input"
+                    placeholder="Search Add-Ons"
+                    {if low_search_keywords}value="{low_search_keywords}"{/if}
+                    >
+
+            </div>
+
+            <div 
+                id="addon-filter-toggle"
+                >
+                <i class="far fa-sliders-h"></i>
+            </div>
+
+            <div class="filter-bar toggle-mobile sm:invisible md:visible mb-5">
+                	<div class="font-bold">Sort</div>
+                        <div>
+                        <select name="orderby_sort" class="filter-bar__item" id="searchResultsSortSelect">
+                                {!--  <option value="name-az">Sort By</option>  --}
+                                <option value="date|desc" {if low_search_orderby_sort =="date|desc"}selected{/if}>Newest</option>
+                                <option value="date|asc" {if low_search_orderby_sort =="date|asc"}selected{/if}>Oldest</option>
+                                <option value="edit_date|desc" {if low_search_orderby_sort =="edit_date|desc"}selected{/if}>Recently Updated</option>
+                                <option value="title|asc" {if low_search_orderby_sort =="title|asc"}selected{/if}>Name: A–Z</option>
+                                <option value="title|desc" {if low_search_orderby_sort =="title|desc"}selected{/if}>Name: Z–A</option>
+                            </select>
+                        </div>
+            </div>
+
+            <div 
+                class="filter-accordion toggle-mobile sm:invisible md:visible"
+                id="filter-container-compatibility"
+                >
+                <div class="font-bold">
+                    Compatibility <i class="far fa-chevron-up"></i>
+                </div>
+
+                <ul 
+                    class="sidebar__list" id="addon-compatibility-filters"
+                    >
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="show-all-compatibility"
+                            id="show-all-compatibility"
+                            onclick="showAll('search:add_on_compatibility[]',this.id)"
+                            data-action="show-all-compatibility"
+                            value="" 
+                            {if low_search_search:add_on_compatibility == ""}checked{/if}
+                            />
+                        <label for="show-all-compatibility">Show All</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility"
+                            id="EE6" 
+                            value="6" 
+                            {if low_search_search:add_on_compatibility *="6"}checked{/if}
+                            />
+                        <label for="EE6">EE 6</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility"
+                            id="EE5" 
+                            value="5" 
+                            {if low_search_search:add_on_compatibility *="5"}checked{/if}
+                            />
+                        <label for="EE5">EE 5</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility"
+                            id="EE4" 
+                            value="4" 
+                            {if low_search_search:add_on_compatibility *="4"}checked{/if}
+                            />
+                        <label for="EE4">EE 4</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility"
+                            id="EE3" 
+                            value="3" 
+                            {if low_search_search:add_on_compatibility *="3"}checked{/if}
+                            />
+                        <label for="EE3">EE 3</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility"
+                            id="EE2" 
+                            value="2" 
+                            {if low_search_search:add_on_compatibility *="2"}checked{/if}
+                            />
+                        <label for="EE2">EE 2</label>
+                    </li>
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="search:add_on_compatibility[]"
+                            data-action-uncheck="show-all-compatibility""
+                            id="EE1" 
+                            value="1" 
+                            {if low_search_search:add_on_compatibility *="1"}checked{/if}
+                            />
+                        <label for="EE1">EE 1</label>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div 
+                class="filter-accordion toggle-mobile sm:invisible md:visible"
+                id="filter-container-categories"
+                >
+                <div 
+                    class="font-bold"
+                    style="margin-top: 20px;"
+                    >Categories <i class="far fa-chevron-up"></i>
+                </div>
+
+                <ul 
+                    class="sidebar__list"
+                    id="addon-category-filter"
+                    >
+                    <li>
+                        <input 
+                            type="checkbox"
+                            name="category[]"
+                            id="show-all-categories" 
+                            onclick="showAll('category[]',this.id)" 
+                            value="" 
+                            {if low_search_category == ""}checked{/if}
+                            />
+                        <label for="show-all-categories">Show All</label>
+                        </li>
+                    {exp:channel:categories channel='add_on_store' parent_only='yes' style='linear' show_empty='no' status='not closed'}
+                        <li>
+                            <input 
+                                type="checkbox"
+                                name="category[]"
+                                id="{category_url_title}"
+                                data-action-uncheck="show-all-categories" 
+                                value="{category_id}"
+                                {if low_search_category ~ '/\b'.category_id.'\b/'} checked{/if} 
+                                />
+                            <label for="{category_url_title}">{category_name}</label>
+                        </li>
+                    {/exp:channel:categories}
+                </ul>
+            </div>
+            
+        </div>
+
+       {/exp:low_search:form}
+</div>
+
+<script>
+//uncheck all boxes with given name when box with specified ID is checked
+function showAll(cn,cbId){
+    if (document.getElementById(cbId).checked){
+        var cbarray = document.getElementsByName(cn);
+        for(var i = 0; i < cbarray.length; i++){
+            if (cbarray[i] != document.getElementById(cbId)){
+                cbarray[i].checked = false;
+            }
+        }   
+        ajaxFormSubmit();
+    }
+}
+
+    const filterAccordions = document.querySelectorAll('.filter-accordion');
+    filterAccordions.forEach(filterAccordions =>{
+        let filterCheckbox = filterAccordions.querySelectorAll('[data-action-uncheck]');
+
+        filterCheckbox.forEach(filterBox => {
+            filterBox.addEventListener('change', event => {
+                var showAllFilter = filterBox.getAttribute("data-action-uncheck");
+                document.getElementById(showAllFilter).checked = false;
+                ajaxFormSubmit();
+            })
+        })
+    });
+</script>

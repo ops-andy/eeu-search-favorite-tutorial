@@ -1,0 +1,27 @@
+{exp:favorites:info
+    entry_id="{segment_3}"
+    disable_pagination="yes"
+}
+    {exp:favorites:edit
+        favorite_id="{favorites:favorite_id}"
+        return="addons"
+    }
+        <input type="hidden" name="entry-id" value="{segment_3}">
+        <input type="hidden" name="delete" value="yes">
+        <button type="submit" value="Remove">
+            <i class="fas fa-heart favorite-toggle active"></i>
+        </button>
+    {/exp:favorites:edit}
+    {if favorites:no_results}
+        {exp:favorites:form
+            entry_id="{segment_3}"
+            return="addons"
+        }
+        <input type="hidden" name="entry-id" value="{segment_3}">
+            <button type="submit" value="Add">
+                <i class="far fa-heart favorite-toggle"></i>
+            </button>
+        {/exp:favorites:form}
+        
+    {/if}
+{/exp:favorites:info}
